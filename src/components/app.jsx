@@ -24,7 +24,6 @@ function App() {
         const fetchData = async () => {
           const weather = await fetchWeather(location, unit)
           const parsedWeather = parseWeatherData(weather.data)
-          console.log(parseWeatherData)
           setLocationData(parsedWeather)
         };
         fetchData();

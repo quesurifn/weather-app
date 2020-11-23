@@ -33,7 +33,7 @@ const parseWeatherData = (data) => {
     const maxTemp = Math.max(...hourlyTemps)
     const lowTemp = Math.min(...hourlyTemps)
     const condition = findCondition(day[3].weather[0].main)
-    const dayOfWeek = new Date(day[0].dt).toLocaleDateString('en-US', { weekday: 'long' })
+    const dayOfWeek = new Date(day[5].dt).toLocaleDateString('en-US', { weekday: 'long' })
  
     parsedDays.push({maxTemp, lowTemp, condition, dayOfWeek})
   });
