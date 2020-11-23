@@ -27,18 +27,19 @@ const findCondition = (condition) => {
 const parseWeatherData = (data) => {
   data.list = _.chunk(data.list, 8)
   const parsedDays = []
-  const days = data.list.map((day) => {
-    const dailyTemps = day.map(e => e.main.temp)
-    const maxTemp = Math.max(dailyTemps)
-    const lowTemp = Math.min(dailyTemps)
-    const conditionImage = findCondition(day[3].weather.main)
-    const dayOfWeek = new Date(day.dt).toLocaleDateString('en-US', { weekday: 'long' })
-    days.push({maxTemp, lowTemp, conditionImage, dayOfWeek})
+  data.list.map((day) => {
+    console.log(day)
+    const hourlyTemps = day.map(e => e.main.temp)
+    const maxTemp = Math.max(...hourlyTemps)
+    const lowTemp = Math.min(...hourlyTemps)
+    const condition = findCondition(day[3].weather[0].main)
+    const dayOfWeek = new Date(day[0].dt).toLocaleDateString('en-US', { weekday: 'long' })
+ 
+    parsedDays.push({maxTemp, lowTemp, condition, dayOfWeek})
   });
-  return parsedDays;
+  const city = data.city.name
+  return {data: parsedDays, city};
 }
-
-
 
 export {
   fetchWeather,

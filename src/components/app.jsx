@@ -48,9 +48,10 @@ function App() {
           </form>
         }
 
-        {locationData && 
+        {locationData &&
           <div>
-            {locationData.map((e, idx) => {
+            <h3>Weather for {locationData.city}</h3>
+            {locationData.data.map((e, idx) => {
               return <WeatherCard key={idx} day={e}/>
             })}
           </div>
