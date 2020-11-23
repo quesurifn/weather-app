@@ -27,13 +27,14 @@ const findCondition = (condition) => {
 const parseWeatherData = (data) => {
   data.list = _.chunk(data.list, 8)
   const parsedDays = []
+  console.log(data.list)
   data.list.map((day) => {
-    console.log(day)
+    console.log(day[0].dt)
     const hourlyTemps = day.map(e => e.main.temp)
     const maxTemp = Math.max(...hourlyTemps)
     const lowTemp = Math.min(...hourlyTemps)
     const condition = findCondition(day[3].weather[0].main)
-    const dayOfWeek = new Date(day[5].dt).toLocaleDateString('en-US', { weekday: 'long' })
+    const dayOfWeek = new Date((day[0].dt * 1000)).toLocaleDateString('en-US', { weekday: 'long' })
  
     parsedDays.push({maxTemp, lowTemp, condition, dayOfWeek})
   });
