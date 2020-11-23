@@ -3,7 +3,7 @@ import qs from 'querystring';
 
 
 import { fetchWeather, parseWeatherData } from '../utils';
-import { Button, Input } from 'semantic-ui-react';
+import { Button, Input, Form } from 'semantic-ui-react';
 import WeatherCard from './weatherCard'
 import "../App.css";
 
@@ -14,13 +14,16 @@ function App() {
   const [locationData, setLocationData] = useState(null);
   const [error, setError] = useState("")
 
+  const parseQuery = () => {
+    return qs.parse(window.location.search.replace('?', ''));
+  }
+
   useEffect(() => {
-    const parsedQuery = qs.parse(window.location.search.replace('?', ''));
-    const { location, unit } = parsedQuery
+    const { location, units } = parseQuery()
     if(location && /\d{5}/.test(location)) {
       try {
         const fetchData = async () => {
-          const weather = await fetchWeather(location, unit)
+          const weather = await fetchWeather(location, units)
           const parsedWeather = parseWeatherData(weather.data)
           setLocationData(parsedWeather)
         };
@@ -31,30 +34,40 @@ function App() {
     }
   }, []);
 
+  const {units} = parseQuery()
+
   return (
       <main>
         <h1>Weather</h1>
 
         {!locationData &&
+        <div className="form-container">
           <form>
-            <p>
-              Enter Your Zip Code
-            </p>
+            <h3> Enter Your Zip Code </h3>
             <Input type="number" name="location" placeholder="Your zip code" min="00000" max="99999" required/>
-            <label>Ferinheight</label>
-            <input type="radio" name="units" value="imperial" defaultChecked></input>
-            <label>Celcius</label>
-            <input type="radio" name="units" value="metric"></input>
+            <div>
+              <div>
+                <label>Ferinheight</label>
+                <input type="radio" name="units" value="imperial" defaultChecked />
+              </div>
+              <div>
+                <label>Celcius</label>
+                <input type="radio" name="units" value="metric"></input>
+              </div>
+            </div>
             <Button type="submit">Find Weather</Button>
           </form>
+        </div>
         }
 
         {locationData &&
           <div>
             <h3>Weather for {locationData.city}</h3>
+            <div className="weather-container">
             {locationData.data.map((e, idx) => {
-              return <WeatherCard key={idx} day={e}/>
+              return <WeatherCard key={idx} day={e} unit={units} />
             })}
+            </div>
           </div>
         }
 

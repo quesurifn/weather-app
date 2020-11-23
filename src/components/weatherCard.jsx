@@ -5,6 +5,7 @@ import Sunny from '../images/sunny.png'
 
 
 function WeatherCard(props) {
+    const unit = props.unit === 'metric' ? 'C' : 'F';
     const image = () => {
         const {day: {condition}} = props
         if(~condition.indexOf('rain')) {
@@ -19,11 +20,11 @@ function WeatherCard(props) {
     }
 
     return (
-        <div className="card">
+        <div className="weather-card">
             <h3>{props.day.dayOfWeek}</h3>
             {image()}
-            <p>High: {props.day.maxTemp}</p>
-            <p>Low: {props.day.lowTemp}</p>
+            <p>High: {props.day.maxTemp} {unit}</p>
+            <p>Low: {props.day.lowTemp} {unit}</p>
         </div>
     )
 }
