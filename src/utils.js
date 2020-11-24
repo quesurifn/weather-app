@@ -20,7 +20,7 @@ const findCondition = (condition) => {
   } else if (~condition.indexOf('Sun')){
     return 'sunny';
   } else {
-    return 'cloudy'
+    return 'cloudy'; 
   }
 }
 
